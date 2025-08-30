@@ -16,10 +16,18 @@ import {
   QueryClient,
 } from "@tanstack/react-query";
 
-import React from 'react'
+import React, { Suspense } from 'react'
 import ReactDOM from 'react-dom/client'
 import App from './App.jsx'
 import './index.css'
+
+// Import contexts
+import { ThemeProvider } from './contexts/ThemeContext'
+import { ToastProvider } from './contexts/ToastContext'
+import LoadingSpinner from './components/LoadingSpinner'
+
+// Create a client
+const queryClient = new QueryClient()
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
@@ -28,9 +36,15 @@ ReactDOM.createRoot(document.getElementById('root')).render(
       projectId: "9f4bd472c01ba49282b42e5e1874c2af",
       chains: [mainnet, polygon, optimism, arbitrum, base],
     })}>
-      <QueryClientProvider client={new QueryClient()}>
+      <QueryClientProvider client={queryClient}>
         <RainbowKitProvider>
-          <App />
+          <ThemeProvider>
+            <ToastProvider>
+              <Suspense fallback={<div className="h-screen w-screen flex items-center justify-center"><LoadingSpinner size="lg" /></div>}>
+                <App />
+              </Suspense>
+            </ToastProvider>
+          </ThemeProvider>
         </RainbowKitProvider>
       </QueryClientProvider>
     </WagmiProvider>

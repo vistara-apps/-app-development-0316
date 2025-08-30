@@ -11,12 +11,20 @@ body {
   -moz-osx-font-smoothing: grayscale;
   background: linear-gradient(135deg, #1e3a8a 0%, #7c3aed 50%, #db2777 100%);
   min-height: 100vh;
+  overflow-x: hidden;
 }
 
 * {
   box-sizing: border-box;
 }
 
+/* Accessibility focus styles */
+:focus-visible {
+  outline: 2px solid hsl(194, 88%, 51%);
+  outline-offset: 2px;
+}
+
+/* Custom utility classes */
 .glow {
   filter: drop-shadow(0 0 20px rgba(139, 92, 246, 0.5));
 }
@@ -34,6 +42,7 @@ body {
   animation-delay: -1s;
 }
 
+/* Custom animations */
 @keyframes bounce {
   0%, 20%, 53%, 80%, 100% {
     transform: translateY(0);
@@ -46,5 +55,52 @@ body {
   }
   90% {
     transform: translateY(-4px);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.3s ease-out forwards;
+}
+
+/* Media queries for responsive design */
+@media (max-width: 640px) {
+  .map-pin {
+    animation: bounce 3s infinite;
+  }
+  
+  .map-pin .w-8 {
+    width: 1.5rem;
+  }
+  
+  .map-pin .h-8 {
+    height: 1.5rem;
+  }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: dark;
+  }
+}
+
+/* Reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }
